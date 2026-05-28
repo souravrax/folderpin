@@ -30,9 +30,9 @@ export function activate(context: vscode.ExtensionContext) {
       let isNew = false
 
       if (!workspaceFilePath) {
-        const create = await vscode.window.showInformationMessage(
-          'No .code-workspace file found. Create one?',
-          'Create', 'Cancel'
+        const create = await vscode.window.showQuickPick(
+          ['Create', 'Cancel'],
+          { placeHolder: 'No .code-workspace file found. Create one?' }
         )
         if (create !== 'Create') return
         workspaceFilePath = createWorkspaceFile(rootPath)
@@ -53,8 +53,8 @@ export function activate(context: vscode.ExtensionContext) {
       // ask for a display name — prefilled with folder name
       const displayName = await vscode.window.showInputBox({
         prompt: 'Name for pinned folder',
-        value: `📌 ${folderName}`,
-        placeHolder: 'e.g. 📌 UI Components'
+        value: folderName,
+        placeHolder: 'e.g. UI Components'
       })
       if (displayName === undefined) return // user pressed escape
 

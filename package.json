@@ -15,7 +15,7 @@
     "commands": [
       {
         "command": "explorerPins.pin",
-        "title": "📌 Pin to Workspace"
+        "title": "Pin to Workspace"
       },
       {
         "command": "explorerPins.unpin",
@@ -27,12 +27,12 @@
         {
           "command": "explorerPins.pin",
           "when": "explorerResourceIsFolder",
-          "group": "navigation@1"
+          "group": "2_workspace@1"
         },
         {
           "command": "explorerPins.unpin",
           "when": "explorerResourceIsFolder",
-          "group": "navigation@2"
+          "group": "2_workspace@2"
         }
       ]
     }
