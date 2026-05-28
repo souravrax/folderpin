@@ -4,7 +4,7 @@
   "description": "Pin any folder to the top of your VS Code explorer",
   "version": "0.0.1",
   "engines": {
-    "vscode": "^1.120.0"
+    "vscode": "^1.74.0"
   },
   "categories": [
     "Other"
@@ -14,10 +14,28 @@
   "contributes": {
     "commands": [
       {
-        "command": "folderpin.helloWorld",
-        "title": "Hello World"
+        "command": "explorerPins.pin",
+        "title": "📌 Pin to Workspace"
+      },
+      {
+        "command": "explorerPins.unpin",
+        "title": "Unpin from Workspace"
       }
-    ]
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "explorerPins.pin",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@1"
+        },
+        {
+          "command": "explorerPins.unpin",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation@2"
+        }
+      ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "pnpm run package",
@@ -28,10 +46,12 @@
     "watch-tests": "tsc -p . -w --outDir out",
     "pretest": "pnpm run compile-tests && pnpm run compile && pnpm run lint",
     "lint": "eslint src",
-    "test": "vscode-test"
+    "test": "vscode-test",
+    "publish:vsce": "vsce publish",
+    "publish:ovsx": "ovsx publish"
   },
   "devDependencies": {
-    "@types/vscode": "^1.120.0",
+    "@types/vscode": "^1.74.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "22.x",
     "typescript-eslint": "^8.56.1",
