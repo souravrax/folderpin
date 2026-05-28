@@ -35,7 +35,15 @@ export function activate(context: vscode.ExtensionContext) {
           { placeHolder: 'No .code-workspace file found. Create one?' }
         )
         if (create !== 'Create') return
-        workspaceFilePath = createWorkspaceFile(rootPath)
+
+        const workspaceName = await vscode.window.showInputBox({
+          prompt: 'Name for the workspace file',
+          value: 'workspace',
+          placeHolder: 'e.g. my-project'
+        })
+        if (!workspaceName) return
+
+        workspaceFilePath = createWorkspaceFile(rootPath, workspaceName)
         isNew = true
       }
 
@@ -46,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
       // check if already pinned
       const alreadyPinned = workspaceData.folders.some(f => f.path === relativePath)
       if (alreadyPinned) {
-        vscode.window.showInformationMessage(`📌 "${folderName}" is already pinned.`)
+        vscode.window.showInformationMessage(`"${folderName}" is already pinned.`)
         return
       }
 
@@ -66,10 +74,14 @@ export function activate(context: vscode.ExtensionContext) {
 
       writeWorkspaceFile(workspaceFilePath, workspaceData)
 
-      // if we just created the workspace file, offer to open it
-      if (isNew) {
+      const inWorkspace = vscode.workspace.workspaceFile?.scheme === 'file'
+
+      if (isNew || !inWorkspace) {
+        const msg = isNew
+          ? 'Workspace file created. Open it now to activate pinning?'
+          : `"${displayName}" pinned. Open the workspace file to see changes?`
         const open = await vscode.window.showInformationMessage(
-          'Workspace file created. Open it now to activate pinning?',
+          msg,
           'Open Workspace', 'Later'
         )
         if (open === 'Open Workspace') {
@@ -79,14 +91,7 @@ export function activate(context: vscode.ExtensionContext) {
           )
         }
       } else {
-        // already in a workspace file — just reload to reflect changes
-        const reload = await vscode.window.showInformationMessage(
-          `📌 "${displayName}" pinned. Reload to see changes?`,
-          'Reload', 'Later'
-        )
-        if (reload === 'Reload') {
-          await vscode.commands.executeCommand('workbench.action.reloadWindow')
-        }
+        vscode.window.showInformationMessage(`"${displayName}" pinned.`)
       }
     }
   )
@@ -120,12 +125,21 @@ export function activate(context: vscode.ExtensionContext) {
 
       writeWorkspaceFile(workspaceFilePath, workspaceData)
 
-      const reload = await vscode.window.showInformationMessage(
-        `Unpinned "${folderName}". Reload to see changes?`,
-        'Reload', 'Later'
-      )
-      if (reload === 'Reload') {
-        await vscode.commands.executeCommand('workbench.action.reloadWindow')
+      const inWorkspace = vscode.workspace.workspaceFile?.scheme === 'file'
+
+      if (!inWorkspace) {
+        const open = await vscode.window.showInformationMessage(
+          `Unpinned "${folderName}". Open the workspace file to see changes?`,
+          'Open Workspace', 'Later'
+        )
+        if (open === 'Open Workspace') {
+          await vscode.commands.executeCommand(
+            'vscode.openFolder',
+            vscode.Uri.file(workspaceFilePath)
+          )
+        }
+      } else {
+        vscode.window.showInformationMessage(`Unpinned "${folderName}".`)
       }
     }
   )

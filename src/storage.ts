@@ -38,8 +38,9 @@ export function writeWorkspaceFile(filePath: string, data: WorkspaceFile) {
 }
 
 // creates a brand new .code-workspace file if none exists
-export function createWorkspaceFile(rootPath: string): string {
-  const filePath = path.join(rootPath, 'workspace.code-workspace')
+export function createWorkspaceFile(rootPath: string, name: string): string {
+  const safeName = name.endsWith('.code-workspace') ? name : `${name}.code-workspace`
+  const filePath = path.join(rootPath, safeName)
   const initial: WorkspaceFile = {
     folders: [{ name: 'root', path: '.' }],
     settings: {}
