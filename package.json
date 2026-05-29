@@ -2,7 +2,17 @@
   "name": "folderpin",
   "displayName": "FolderPin",
   "description": "Pin any folder to the top of your VS Code explorer",
-  "version": "0.0.1",
+  "version": "0.1.0",
+  "icon": "images/icon.png",
+  "keywords": [
+    "pin",
+    "folder",
+    "workspace",
+    "explorer",
+    "bookmark",
+    "favorite",
+    "organize"
+  ],
   "engines": {
     "vscode": "^1.74.0"
   },
