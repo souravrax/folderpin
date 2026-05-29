@@ -32,5 +32,9 @@ jobs:
       - name: Package extension
         run: pnpm exec vsce package --no-dependencies
 
+      - name: Create Open VSX namespace
+        run: pnpm exec ovsx create-namespace souravrax -p ${{ secrets.OVSX_TOKEN }}
+        continue-on-error: true
+
       - name: Publish to Open VSX
         run: pnpm exec ovsx publish *.vsix -p ${{ secrets.OVSX_TOKEN }}
