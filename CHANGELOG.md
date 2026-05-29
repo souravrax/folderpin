@@ -2,6 +2,13 @@
 
 All notable changes to the "FolderPin" extension will be documented in this file.
 
+## [0.1.1] - 2025-05-29
+
+### Fixed
+- Removed redundant quick-pick step when creating a workspace file — now asks for the workspace name directly in one prompt
+
+---
+
 ## [0.1.0] - 2025-05-29
 
 ### Added
