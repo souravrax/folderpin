@@ -35,9 +35,5 @@ jobs:
       - name: Publish to VS Code Marketplace
         run: pnpm exec vsce publish -p ${{ secrets.VSCE_TOKEN }}
 
-      - name: Create Open VSX namespace
-        run: pnpm exec ovsx create-namespace souravrax -p ${{ secrets.OVSX_TOKEN }}
-        continue-on-error: true
-
       - name: Publish to Open VSX
         run: pnpm exec ovsx publish *.vsix -p ${{ secrets.OVSX_TOKEN }}
