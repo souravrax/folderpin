@@ -30,14 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
       let isNew = false
 
       if (!workspaceFilePath) {
-        const create = await vscode.window.showQuickPick(
-          ['Create', 'Cancel'],
-          { placeHolder: 'No .code-workspace file found. Create one?' }
-        )
-        if (create !== 'Create') return
-
         const workspaceName = await vscode.window.showInputBox({
-          prompt: 'Name for the workspace file',
+          prompt: 'No workspace file found. Name for the new workspace file?',
           value: 'workspace',
           placeHolder: 'e.g. my-project'
         })
