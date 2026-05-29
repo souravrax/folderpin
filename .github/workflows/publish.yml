@@ -32,7 +32,7 @@ jobs:
       - name: Package extension
         run: pnpm exec vsce package --no-dependencies
 
-      - name: Publish to VS Code: Marketplace
+      - name: Publish to VS Code Marketplace
         run: pnpm exec vsce publish *.vsix -p ${{ secrets.VSCE_TOKEN }}
 
       - name: Create Open VSX namespace
